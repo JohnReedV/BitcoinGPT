@@ -1,10 +1,11 @@
-import express from 'express'
-import axios from 'axios'
+import express, { Request, Response } from 'express'
 import cors from 'cors'
+import axios from 'axios'
 
 const app = express()
+app.use(cors({ origin: 'https://chat.openai.com' }))
 app.use(express.json())
-app.use(cors())
+
 
 app.get('/bitcoin/info', async (req, res) => {
   try {
@@ -29,7 +30,34 @@ app.get('/bitcoin/info', async (req, res) => {
   }
 })
 
-const PORT = process.env.PORT || 3000;
+// app.get('/logo.png', (req: Request, res: Response) => {
+//   res.sendFile('logo.png', { root: __dirname }, (err) => {
+//     if (err) {
+//       console.error(err)
+//       res.sendStatus(404)
+//     }
+//   })
+// })
+
+app.get('/.well-known/ai-plugin.json', (req: Request, res: Response) => {
+  res.sendFile('.well-known/ai-plugin.json', { root: __dirname }, (err) => {
+    if (err) {
+      console.error(err)
+      res.sendStatus(404)
+    }
+  })
+})
+
+app.get('/openapi.yaml', (req: Request, res: Response) => {
+  res.sendFile('openapi.yaml', { root: __dirname }, (err) => {
+    if (err) {
+      console.error(err)
+      res.sendStatus(404)
+    }
+  })
+})
+
+const PORT = 3000
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
+  console.log(`Server is running on port ${PORT}`)
 })
