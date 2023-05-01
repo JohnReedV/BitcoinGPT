@@ -1,41 +1,35 @@
-import express, { Request, Response } from 'express'
+import express from 'express'
+import axios from 'axios'
 import cors from 'cors'
-import path from 'path'
 
 const app = express()
+app.use(express.json())
 app.use(cors())
 
-const todos: string[] = []
+app.get('/bitcoin/info', async (req, res) => {
+  try {
+    const response = await axios.get('http://localhost:8332/', {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({
+        method: 'getblockchaininfo',
+        params: [],
+        id: 1,
+      }),
+      auth: {
+        username: 'yourUsername',
+        password: 'yourPassword',
+      },
+    });
 
-app.get('/todos', (req: Request, res: Response) => {
-  res.json({ todos })
-})
-
-app.post('/todos/:todo', (req: Request, res: Response) => {
-  const todo = req.params.todo
-  todos.push(todo)
-  res.sendStatus(201)
-})
-
-app.delete('/todos/:todo', (req: Request, res: Response) => {
-  const todo = req.params.todo
-  const index = todos.indexOf(todo)
-  if (index !== -1) {
-    todos.splice(index, 1)
-    res.sendStatus(200)
-  } else {
-    res.sendStatus(404)
+    res.json(response.data.result)
+  } catch (error) {
+    res.status(500).json({ message: 'Error retrieving Bitcoin node info' })
   }
 })
 
-app.get('/.well-known/ai-plugin.json', (req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, 'ai-plugin.json'))
-})
-app.get('/openapi.yaml', (req, res) => {
-  res.sendFile(path.join(__dirname, 'openapi.yaml'))
-})
-
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`)
+  console.log(`Server running on port ${PORT}`)
 })

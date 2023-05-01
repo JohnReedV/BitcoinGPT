@@ -1,29 +1,26 @@
-openapi: 3.0.1
+openapi: "3.0.0"
 info:
-  title: TODO Plugin
-  description: A plugin that allows the user to create and manage a TODO list using ChatGPT.
-  version: 'v1'
-servers:
-  - url: http://localhost:3000
+  title: "Bitcoin Data"
+  version: "1.0.0"
 paths:
-  /todos:
+  /getBitcoinData:
     get:
-      operationId: getTodos
-      summary: Get the list of todos
+      summary: "Get Bitcoin data from the node"
+      operationId: "getBitcoinData"
       responses:
-        "200":
-          description: OK
+        '200':
+          description: "Bitcoin data"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getTodosResponse'
-components:
-  schemas:
-    getTodosResponse:
-      type: object
-      properties:
-        todos:
-          type: array
-          items:
-            type: string
-          description: The list of todos.
+                type: object
+                properties:
+                  blockHeight:
+                    type: integer
+                    description: "Current block height"
+                  blockchainInfo:
+                    type: object
+                    description: "Information about the blockchain"
+                  networkInfo:
+                    type: object
+                    description: "Information about the Bitcoin network"

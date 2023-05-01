@@ -1,0 +1,25 @@
+{
+  "name": "BitcoinGPT",
+  "logo": "https://yourdomain.com/logo.png",
+  "openapi": {
+    "paths": {
+      "/bitcoin/info": {
+        "get": {
+          "description": "Get information about the current state of Bitcoin",
+          "responses": {
+            "200": {
+              "description": "Bitcoin information retrieved successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
