@@ -1,25 +1,18 @@
 {
-  "name": "BitcoinGPT",
-  "logo": "https://yourdomain.com/logo.png",
-  "openapi": {
-    "paths": {
-      "/bitcoin/info": {
-        "get": {
-          "description": "Get information about the current state of Bitcoin",
-          "responses": {
-            "200": {
-              "description": "Bitcoin information retrieved successfully",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+  "schema_version": "v1",
+  "name_for_human": "BitcoinGPT",
+  "name_for_model": "todo",
+  "description_for_human": "Get information about the current state of Bitcoin",
+  "description_for_model": "Get information about the current state of Bitcoin",
+  "auth": {
+      "type": "none"
+  },
+  "api": {
+      "type": "openapi",
+      "url": "http://localhost:3000/openapi.yaml",
+      "is_user_authenticated": false
+  },
+  "logo_url": "http://localhost:3000/logo.png",
+  "contact_email": "support@example.com",
+  "legal_info_url": "http://www.example.com/legal"
 }
