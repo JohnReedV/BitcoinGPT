@@ -112,14 +112,14 @@ app.get('/bitcoin/get-senders/:txhex', async (req, res) => {
   res.json(senders)
 })
 
-// app.get('/logo.png', (req: Request, res: Response) => {
-//   res.sendFile('logo.png', { root: __dirname }, (err) => {
-//     if (err) {
-//       console.error(err)
-//       res.sendStatus(404)
-//     }
-//   })
-// })
+app.get('/logo.png', (req: Request, res: Response) => {
+  res.sendFile('assets/bitcoin-btc-logo.png', { root: __dirname }, (err) => {
+    if (err) {
+      console.error(err)
+      res.sendStatus(404)
+    }
+  })
+})
 
 app.get('/.well-known/ai-plugin.json', (req: Request, res: Response) => {
   res.sendFile('.well-known/ai-plugin.json', { root: __dirname }, (err) => {
