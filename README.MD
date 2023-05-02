@@ -6,13 +6,13 @@ BitcoinGPT is a chatGPT plugin that provides information about the Bitcoin block
 
 - Get Bitcoin chain info
 - Get current block height
-- Get block hash by block number
-- Get the details of a block by its block hash
-- Get raw transaction by tx hash and block hash
-- Get decoded transaction from raw transaction hex string
-- Get transaction details by txid
-- Get receivers of a transaction from the decoded transaction object
-- Get senders of a transaction from the transaction hex string
+- Get block hash
+- Get the details of a block
+- Get raw transaction
+- Get decoded transaction
+- Get transaction details
+- Get receivers of a transaction
+- Get senders of a transaction 
 
 ## Installation
 
