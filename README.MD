@@ -4,6 +4,7 @@ BitcoinGPT is a chatGPT plugin that provides information about the Bitcoin block
 
 ## Features
 
+- Get Bitcoin current price
 - Get Bitcoin chain info
 - Get current block height
 - Get block hash
