@@ -1,8 +1,8 @@
 {
-  "name": "gpt",
+  "name": "bitcoingpt",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT",
+  "license": "CC BY-NC 4.0",
   "dependencies": {
     "@types/bitcore-lib": "^0.15.3",
     "@types/cors": "^2.8.13",
