@@ -1,15 +1,72 @@
 openapi: "3.0.0"
 info:
-  title: "Bitcoin Data"
+  title: "BitcoinGPT"
   version: "1.0.0"
 paths:
   /bitcoin/info:
     get:
-      summary: "Get Bitcoin data from the node"
-      operationId: "getBitcoinData"
+      summary: "Get Bitcoin chain info"
+      operationId: "getChainInfo"
       responses:
         '200':
-          description: "Bitcoin data"
+          description: "Bitcoin chain info"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  chain:
+                    type: string
+                  blocks:
+                    type: integer
+                  headers:
+                    type: integer
+                  bestblockhash:
+                    type: string
+                  difficulty:
+                    type: number
+                  mediantime:
+                    type: integer
+                  verificationprogress:
+                    type: number
+                  chainwork:
+                    type: string
+                  pruned:
+                    type: boolean
+                  softforks:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        version:
+                          type: integer
+                        reject:
+                          type: object
+                          properties:
+                            status:
+                              type: boolean
+                  bip9_softforks:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                        startTime:
+                          type: integer
+                        timeout:
+                          type: integer
+                        since:
+                          type: integer
+  /bitcoin/block-height:
+    get:
+      summary: "Get current block height"
+      operationId: "getBlockHeight"
+      responses:
+        '200':
+          description: "Current block height"
           content:
             application/json:
               schema:
@@ -17,10 +74,126 @@ paths:
                 properties:
                   blockHeight:
                     type: integer
-                    description: "Current block height"
-                  blockchainInfo:
-                    type: object
-                    description: "Information about the blockchain"
-                  networkInfo:
-                    type: object
-                    description: "Information about the Bitcoin network"
+  /bitcoin/block-hash/{blockNumber}:
+    get:
+      summary: "Get block hash by block number"
+      operationId: "getBlockHash"
+      parameters:
+        - name: blockNumber
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "Block hash"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  blockHash:
+                    type: string
+  /bitcoin/block/{blockHash}:
+    get:
+      summary: "Get the details of a block by its bock hash"
+      operationId: "getBlock"
+      parameters:
+        - name: blockHash
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "Block details"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hash:
+                    type: string
+                  confirmations:
+                    type: integer
+                  size:
+                    type: integer
+                  height:
+                    type: integer
+                  version:
+                    type: integer
+                  merkleroot:
+                    type: string
+                  tx:
+                    type: array
+                    items:
+                      type: string
+                  time:
+                    type: integer
+                  nonce:
+                    type: integer
+                  bits:
+                    type: string
+                  difficulty:
+                    type: number
+                  previousblockhash:
+                    type: string
+                  nextblockhash:
+                    type: string
+  /bitcoin/raw-tx/{txHash}/{blockHash}:
+    get:
+      summary: "Get raw transaction by tx hash and block hash"
+      operationId: "getRawTX"
+      parameters:
+        - name: txHash
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: blockHash
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "Raw transaction details"
+          content:
+            application/json:
+              schema:
+                type: object
+  /bitcoin/decoded-tx/{rawTXHexString}:
+    get:
+      summary: "Get decoded transaction from raw transaction hex string"
+      operationId: "getDecodedTX"
+      parameters:
+        - name: rawTXHexString
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "Decoded transaction details"
+          content:
+            application/json:
+              schema:
+                type: object
+  /bitcoin/transaction/{txid}:
+    get:
+      summary: "Get transaction details by txid"
+      operationId: "getTransactionFromTxId"
+      parameters:
+        - name: txid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "Transaction details"
+          content:
+            application/json:
+              schema:
+                type: object
+
