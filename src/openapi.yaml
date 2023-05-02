@@ -196,4 +196,59 @@ paths:
             application/json:
               schema:
                 type: object
-
+  /bitcoin/get-receivers/{decodedtx}:
+    get:
+      summary: "Get receivers of a transaction from the decoded transaction object"
+      operationId: "getReceivers"
+      parameters:
+        - name: decodedtx
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "Receivers of the transaction"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    address:
+                      type: string
+                    value:
+                      type: number
+                    type:
+                      type: string
+                    index:
+                      type: integer
+  /bitcoin/get-senders/{txhex}:
+    get:
+      summary: "Get senders of a transaction from the transaction hex string"
+      operationId: "getSenders"
+      parameters:
+        - name: txhex
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "Senders of the transaction"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    address:
+                      type: string
+                    value:
+                      type: number
+                    type:
+                      type: string
+                    index:
+                      type: integer

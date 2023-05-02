@@ -1,6 +1,8 @@
-import express, { Request, Response, response } from 'express'
+import express, { Request, Response } from 'express'
 import cors from 'cors'
 import { BtcQueries } from './btcQ'
+import Bitcore from "bitcore-lib"
+import { DecodedTransaction } from './IBitcoinGPT'
 
 const app = express()
 app.use(cors({ origin: 'https://chat.openai.com' }))
@@ -69,6 +71,45 @@ app.get('/bitcoin/transaction/:txid', async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: `Error: ${error}` })
   }
+})
+
+app.get('/bitcoin/get-receivers/:decodedtx', async (req, res) => {
+  const decodedTx: DecodedTransaction = JSON.parse(req.params.decodedtx)
+  const receivers = []
+  for (let v = 0; v < decodedTx.vout.length; v++) {
+    const vout = decodedTx.vout[v]
+    if (vout.scriptPubKey.type === 'nulldata' || !vout.scriptPubKey.address) {
+      continue
+    }
+
+    receivers.push({
+      address: vout.scriptPubKey.address,
+      value: vout.value,
+      type: vout.scriptPubKey.type,
+      index: v,
+    })
+  }
+  res.json(receivers)
+})
+
+app.get('/bitcoin/get-senders/:txhex', async (req, res) => {
+  const transaction = new Bitcore.Transaction(req.params.txhex)
+  const senders = []
+  for (let i = 0; i < transaction.inputs.length; i++) {
+    const input = transaction.inputs[i]
+    const oldTransaction = await btcQ.getTransactionFromTxId(input.prevTxId.toString('hex'))
+    const decodedTX = await btcQ.getDecodedTX(oldTransaction.hex)
+    const spk = decodedTX.vout[input.outputIndex].scriptPubKey
+    if (spk.address) {
+      senders.push({
+        address: spk.address,
+        value: decodedTX.vout[input.outputIndex].value,
+        type: spk.type,
+        index: i,
+      })
+    }
+  }
+  res.json(senders)
 })
 
 // app.get('/logo.png', (req: Request, res: Response) => {
