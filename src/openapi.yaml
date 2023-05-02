@@ -3,7 +3,7 @@ info:
   title: "Bitcoin Data"
   version: "1.0.0"
 paths:
-  /getBitcoinData:
+  /bitcoin/info:
     get:
       summary: "Get Bitcoin data from the node"
       operationId: "getBitcoinData"

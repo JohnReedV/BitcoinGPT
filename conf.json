@@ -1,0 +1,5 @@
+{
+    "btcHttpProvider": "http://localhost:8332",
+    "btcRpcUser" : "USERNAME",
+    "btcRpcPassword": "PASSWORD"
+}

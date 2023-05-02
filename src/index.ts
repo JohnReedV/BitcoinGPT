@@ -1,32 +1,20 @@
-import express, { Request, Response } from 'express'
+import express, { Request, Response, response } from 'express'
 import cors from 'cors'
-import axios from 'axios'
+import { BtcQueries } from './btcQ'
 
 const app = express()
 app.use(cors({ origin: 'https://chat.openai.com' }))
 app.use(express.json())
 
+const btcQ = new BtcQueries()
 
 app.get('/bitcoin/info', async (req, res) => {
+  let result
   try {
-    const response = await axios.get('http://localhost:8332/', {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: JSON.stringify({
-        method: 'getblockchaininfo',
-        params: [],
-        id: 1,
-      }),
-      auth: {
-        username: 'yourUsername',
-        password: 'yourPassword',
-      },
-    });
-
-    res.json(response.data.result)
+    result = await btcQ.getChainInfo()
+    res.json(result)
   } catch (error) {
-    res.status(500).json({ message: 'Error retrieving Bitcoin node info' })
+    res.status(500).json({ message: `Here is the error message: ${error} and here is the response ${JSON.stringify(result)}` })
   }
 })
 
