@@ -1,14 +1,24 @@
-import express, { Request, Response } from 'express'
+import express from 'express'
 import cors from 'cors'
 import { BtcQueries } from './btcQ'
 import Bitcore from "bitcore-lib"
 import { DecodedTransaction } from './IBitcoinGPT'
+import axios from 'axios'
 
 const app = express()
 app.use(cors({ origin: 'https://chat.openai.com' }))
 app.use(express.json())
 
 const btcQ = new BtcQueries()
+
+app.get('/bitcoin/current-price', async (req, res) => {
+  try {
+    const response = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd')
+    res.json(response.data)
+  } catch (error) {
+    res.status(500).json({ message: `Error: ${error}` })
+  }
+})
 
 app.get('/bitcoin/info', async (req, res) => {
   try {
@@ -112,7 +122,7 @@ app.get('/bitcoin/get-senders/:txhex', async (req, res) => {
   res.json(senders)
 })
 
-app.get('/logo.png', (req: Request, res: Response) => {
+app.get('/logo.png', (req, res) => {
   res.sendFile('assets/bitcoin-btc-logo.png', { root: __dirname }, (err) => {
     if (err) {
       console.error(err)
@@ -121,7 +131,7 @@ app.get('/logo.png', (req: Request, res: Response) => {
   })
 })
 
-app.get('/.well-known/ai-plugin.json', (req: Request, res: Response) => {
+app.get('/.well-known/ai-plugin.json', (req, res) => {
   res.sendFile('.well-known/ai-plugin.json', { root: __dirname }, (err) => {
     if (err) {
       console.error(err)
@@ -130,7 +140,7 @@ app.get('/.well-known/ai-plugin.json', (req: Request, res: Response) => {
   })
 })
 
-app.get('/openapi.yaml', (req: Request, res: Response) => {
+app.get('/openapi.yaml', (req, res) => {
   res.sendFile('openapi.yaml', { root: __dirname }, (err) => {
     if (err) {
       console.error(err)

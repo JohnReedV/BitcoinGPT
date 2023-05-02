@@ -252,3 +252,20 @@ paths:
                       type: string
                     index:
                       type: integer
+  /bitcoin/current-price:
+    get:
+      summary: "Get the current price of Bitcoin"
+      operationId: "getCurrentPrice"
+      responses:
+        '200':
+          description: "Current Bitcoin price"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  bitcoin:
+                    type: object
+                    properties:
+                      usd:
+                        type: number
