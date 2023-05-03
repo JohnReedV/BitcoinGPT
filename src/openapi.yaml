@@ -269,3 +269,21 @@ paths:
                     properties:
                       usd:
                         type: number
+  /bitcoin/generate-keypair:
+    get:
+      summary: "Generate a valid Bitcoin public/private key pair"
+      operationId: "generateKeyPair"
+      responses:
+        '200':
+          description: "Generated Bitcoin public/private key pair"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  privateKey:
+                    type: string
+                  publicKey:
+                    type: string
+                  address:
+                    type: string

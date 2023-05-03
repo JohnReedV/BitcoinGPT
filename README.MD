@@ -14,6 +14,7 @@ BitcoinGPT is a chatGPT plugin that provides information about the Bitcoin block
 - Get transaction details
 - Get receivers of a transaction
 - Get senders of a transaction 
+- Generate addresses & private/public key pairs
 
 ## Installation
 

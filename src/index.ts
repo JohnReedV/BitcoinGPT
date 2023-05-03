@@ -122,6 +122,22 @@ app.get('/bitcoin/get-senders/:txhex', async (req, res) => {
   res.json(senders)
 })
 
+app.get('/bitcoin/generate-keypair', (req, res) => {
+  try {
+    const privateKey = new Bitcore.PrivateKey();
+    const publicKey = privateKey.toPublicKey();
+    const address = privateKey.toAddress()
+    
+    res.json({
+      privateKey: privateKey.toString(),
+      publicKey: publicKey.toString(),
+      address: address.toString()
+    });
+  } catch (error) {
+    res.status(500).json({ message: `Error: ${error}` });
+  }
+})
+
 app.get('/logo.png', (req, res) => {
   res.sendFile('assets/bitcoin-btc-logo.png', { root: __dirname }, (err) => {
     if (err) {
