@@ -123,19 +123,22 @@ app.get('/bitcoin/get-senders/:txhex', async (req, res) => {
 })
 
 app.get('/bitcoin/generate-keypair', (req, res) => {
-  try {
+  const amount = parseInt(req.query.amount as string ?? '1')
+  const keyPairs = [];
+
+  for (let i = 0; i < amount; i++) {
     const privateKey = new Bitcore.PrivateKey();
     const publicKey = privateKey.toPublicKey();
-    const address = privateKey.toAddress()
-    
-    res.json({
+    const address = privateKey.toAddress();
+
+    keyPairs.push({
       privateKey: privateKey.toString(),
       publicKey: publicKey.toString(),
-      address: address.toString()
-    });
-  } catch (error) {
-    res.status(500).json({ message: `Error: ${error}` });
+      address: address.toString(),
+    })
   }
+
+  res.json(keyPairs);
 })
 
 app.get('/logo.png', (req, res) => {

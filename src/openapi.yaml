@@ -273,17 +273,26 @@ paths:
     get:
       summary: "Generate a valid Bitcoin public/private key pair"
       operationId: "generateKeyPair"
+      parameters:
+        - in: query
+          name: amount
+          schema:
+            type: integer
+            default: 1
+          description: "The number of key pairs to generate"
       responses:
         '200':
-          description: "Generated Bitcoin public/private key pair"
+          description: "Generated Bitcoin public/private key pair(s)"
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  privateKey:
-                    type: string
-                  publicKey:
-                    type: string
-                  address:
-                    type: string
+                type: array
+                items:
+                  type: object
+                  properties:
+                    privateKey:
+                      type: string
+                    publicKey:
+                      type: string
+                    address:
+                      type: string
